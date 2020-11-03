@@ -1,0 +1,25 @@
+{
+  "name": "land-registry",
+  "version": "1.0.0",
+  "description": "",
+  "main": "truffle.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "dev": "lite-server",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "lite-server": "^2.3.0"
+  },
+  "dependencies": {
+    "crypto-js": "^4.0.0",
+    "fs": "0.0.1-security",
+    "g": "^2.0.1",
+    "keccak": "^3.0.1",
+    "web3": "^1.3.0"
+  }
+}
