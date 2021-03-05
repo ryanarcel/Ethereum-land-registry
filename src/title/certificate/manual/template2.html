@@ -1,0 +1,138 @@
+﻿<!DOCTYPE HTML>
+<html>
+  <head>
+    <title>Land Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../../../css/bootstrap.min.css">
+    
+
+    <style type="text/css">
+      /* Basic styling for root. */
+      #root {
+        width: 600px;
+        height: 800px;
+        border: 10px solid rgb(6, 109, 6);
+        background-color:bisque ;
+      }
+      #inside-root{
+        font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+        width: 550px;
+        height: 750px;
+        margin: auto auto;
+        background-color: rgb(209, 240, 197);
+        border: 3px solid rgb(6, 109, 6);
+        
+      }
+      #cert-title{
+        font-family:Arial, Helvetica, sans-serif;
+      }
+    </style>
+  </head>
+
+  <body onload="makeCode()">
+    <!-- Button to generate PDF. -->
+    <button onclick="test()">Generate PDF</button>
+
+    <!-- Div to capture. -->
+  
+    <div id="root" class="mt-3">
+      <div id="inside-root" class="mt-3 pl-5 pr-5 pt-3">
+      <center>
+      <h4>Republic of the Philippines</h4>
+      <h3>Philippine Blockchain Land Registry</h3><br>
+      <h2 id="cert-title">Certificate of Title</h2>
+      </center>
+      <br>
+      <p>
+        This hereby certifies that a certain land in <span id='certain-land'></span>, 
+        bounded and described as follows: <br>
+        <b>PORTION OF: </b><span id="complete"></span><br>
+        <b>SURVEY NO. : </b><span id="surveyNo"></span><br>
+        <b>Blockchain Registered ID: </b><span id="land-ID"></span><br>
+        <b>LOCATION: </b><span id="location"></span><br><br>
+        is registered in accordance with the provision of the Property Registration Decree in the name of <br>
+        <b><i>Owner: </i></b><span id="owner-name"></span><br>
+        <b><i>Blockchain Address: </i></b><span id="blockchainAdd"></span>
+      </p>
+      
+      <div id="qrcode" style="width:400px; height:400px; margin-top:15px;">
+        Verification QR Code
+      </div>
+
+      </div>
+    </div>
+    
+
+    <!-- Include html2pdf bundle. -->
+    <script src="../../dist/html2pdf.bundle.js"></script>
+    <script src="../../../js/jquery.min.js"></script>
+    <script src="../../../js/assets/bootstrap.min.js"></script>
+    <script src="../../../js/qrcode.js"></script>
+
+    <script>
+      function test() {
+        // Get the element.
+        var element = document.getElementById('root');
+
+        // Generate the PDF.
+        html2pdf().from(element).set({
+          margin: 1,
+          filename: 'test.pdf',
+          html2canvas: { scale: 2 },
+          jsPDF: {orientation: 'portrait', unit: 'in', format: 'letter', compressPDF: true}
+        }).save();
+      }
+    </script>
+    <script>
+      let currenturl = window.location.href;
+      console.log("url: "+ currenturl);
+      res = currenturl.split("?");
+      console.log(res[1]);
+      let landId = res[1];
+
+      $.getJSON( "../../../land.json", function(data) {
+        for(var i =0; i<data.length; i++){
+          if(data[i].id == landId){
+            //console.log("Found it: "+data[i].surveyNo);
+            let certain = data[i].village +", "+data[i].barangay + ", "+data[i].citymunicipality;
+            $('#certain-land').html(certain.toUpperCase());
+            $('#complete').html(data[i].complete_location);
+            $('#surveyNo').html(data[i].surveyNo);
+            $('#land-ID').html(landId);
+            $('#location').html(certain);
+          }
+        }
+      });
+
+      let accthex = sessionStorage.getItem("account-hex");
+      accthex = parseInt(accthex, 16);
+
+      console.log("hex-account: "+ accthex ); 
+
+       $.getJSON( "../../../people.json", function(data) {
+        for(var i =0; i<data.length; i++){
+          jsonAddress = parseInt(data[i].address, 16);
+          if(jsonAddress == accthex){
+          
+            $('#owner-name').html("<b>"+data[i].owner.toUpperCase() + " OF LEGAL AGE. FILIPINO<b>")
+            $('#blockchainAdd').html("<b>"+data[i].address+"</b>");
+          }
+        }
+      }); 
+
+      var qrcode = new QRCode(document.getElementById("qrcode"), {
+        width : 150,
+        height : 150
+      });
+      
+      function makeCode () {	
+        let ethAddress = sessionStorage.getItem("account-hex");
+        var elText = ethAddress + "-" + landId;
+        console.log("for QR: "+ elText);
+        
+        qrcode.makeCode(elText);
+      }
+      
+  </script>
+  </body>
+</html>

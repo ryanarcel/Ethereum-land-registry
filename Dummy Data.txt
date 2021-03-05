@@ -1,0 +1,25 @@
+PCD-11111
+100
+Lot 1, Block 1
+Freedom Village
+San Antonio
+Davao City
+Davao Del Sur
+
+
+PCD-22222
+90
+Lot 2, block 2
+Waterlily Village
+Wilfredo Aquino
+Davao City
+Davao Del Sur
+
+
+PCD-33333
+120
+Lot 3, Block 3
+New Visayas
+Tibal-og
+Sto Tomas
+Davao Del Norte

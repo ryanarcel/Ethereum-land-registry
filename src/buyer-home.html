@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en" >
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>PH Land Registry</title>
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="css/dashboard.css" rel="stylesheet">
+  </head>
+
+  <body style='background-color: rgb(248, 248, 219);'>
+    <nav class="navbar navbar-dark sticky-top bg-warning flex-md-nowrap p-0">
+      <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">PH Land Registry</a>
+      <ul class="navbar-nav px-3">
+        <li class="nav-item text-nowrap">
+          <a class="nav-link logout text-white" href="#">Sign out</a>
+        </li>
+      </ul>
+    </nav>
+
+    <div class="container-fluid">
+      <div class="row">
+        <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+          <div class="sidebar-sticky">
+            <ul class="nav flex-column">
+              <li class="nav-item pl-3">
+                <a class="nav-link 1stlink active" href="buyer-home.html">
+                  <span data-feather="home"></span>
+                  Property Search <span class="sr-only"></span>
+                </a>
+              </li>
+              <li class="nav-item pl-3">
+                <a class="nav-link 2ndlink" href="#" onclick="App.pullRequestedAssets()">
+                  <span data-feather="home"></span>
+                  Assets requested for purchase<span class="sr-only"></span>
+                </a>
+              </li>
+              <li class="nav-item pl-3">
+                <a class="nav-link" href="buyer-home.html">
+                  <span data-feather="home"></span>
+                  Profile <span class="sr-only"></span>
+                </a>
+              </li>
+              <li style="border-bottom: 1px solid #ccc">
+                  <p>&nbsp;</p>
+              </li>
+            </ul>
+      </div>
+    </div>
+    <div class="container" >
+      <h5 style="margin-left: 150px; margin-top:20px; display:none" id="welcome" ></h5>
+      <div class="col-md-10 offset-2 mt-2 pt-5" >
+        <div class="row">
+          <div class="alert alert-success alert-saved" role="alert" style="display:none">
+            Saved!
+          </div>
+          <input type="text" class="form-control mb-2" style="height: 50px;" id="searchBox" placeholder="Search asset to buy"/>
+          <br>
+          <button class="btn btn-primary" id="searchBtn" onclick="App.searchAsset()">Search</button>
+          <button class="btn btn-info" id="clearBtn" onclick="location.reload()" style="display:none">Clear</button>
+        </div>
+        <h5 id="forSaleHeader" style="display: none; margin-top:20px">Land Properties for Sale</h5>
+        <h5 id="noResults" style="display: none; margin-top:20px">No Results</h5>
+        <div class="row pt-3" id="results" style="display:none">
+        </div>
+      </div>
+    </div>
+
+    <!--details modal -->
+    <div class="modal" id="landDetailsModal" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Land Details</h5>
+            <button type="button" class="close" data-dismiss="modal" onclick="$('#landDetailsModal').hide(200)" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <p id="regDate">Registration date: </p>
+            <p id="surNum">Survey Number: </p>
+            <p id="area">Area: </p>
+            <p id="comLoc">Complete location: </p>
+            <p id="brgy">Barangay: </p>
+            <p id="city">City/Municipality: </p>
+            <p id="prov">Province: </p>
+            <p id="own">Owner: </p>
+            <p id="price">Price: </p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" id="requestPurchase">Request Purchase</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="$('#landDetailsModal').hide(200)">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!---Success request modal-->
+    <div class="modal" id="successReqModal" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" onclick="$('#landDetailsModal').fadeOut(200)" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <h5>Your request for has been sent to the owner.</h5>
+            <h5>Wait for the owner to grant your request.</h5>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-Primary" data-dismiss="modal" onclick="$('#successReqModal').fadeOut(200)">Okay</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+    <script src="js/xdomain.min.js" slave="http://localhost/dapp/proxy.html"></script> 
+    <script src="js/jquery.min.js"></script>
+    <script src="js/assets/popper.min.js"></script>
+    <script src="js/assets/bootstrap.min.js"></script>
+    <script src="js/web3.min.js"></script>
+    <script src="js/truffle-contract.js"></script>
+    <script src="js/truffle-contract.js"></script>
+    <script src="js/crypto-js.js"></script>
+    <script src="js/app.js"></script>
+    <script>
+      $(document).ready(function(){
+        
+    
+        if (sessionStorage.getItem("account") == null){
+          window.location.replace("index.html");
+        }
+
+        console.log(sessionStorage.getItem("account"));
+
+        $(".logout").click(function(){
+            sessionStorage.clear();
+            window.location.replace("index.html");
+        });
+
+        $('#updateButton').click(function(){
+          let newValue = parseInt($('#value').val());
+          let id = $('#id').val();
+          App.updateValue(newValue, id);
+        });
+      });
+      </script>
+</body>
+</html>
+

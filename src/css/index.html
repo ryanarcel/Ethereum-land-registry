@@ -1,0 +1,72 @@
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="">
+    <title>PH Land Registry</title>
+    <link rel="canonical" href="https://getbootstrap.com/docs/4.0/examples/cover/">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/cover.css" rel="stylesheet">
+  </head>
+  <body class="text-center">
+    <div class="cover-container d-flex h-100 p-3 mx-auto flex-column">
+      <header class="masthead mb-auto">
+        <div class="inner">
+          <h3 class="masthead-brand">Philippine Land Registry</h3>
+          <nav class="nav nav-masthead justify-content-center">
+            <a class="nav-link inspector-link active" href="index.html">Inpector</a>
+            <a class="nav-link owner-link" href="#owner">Owner</a>
+            <a class="nav-link" href="index-buyer.html">Buyer</a>
+          </nav>
+        </div>
+      </header>
+
+      <main role="main" class="inner cover">
+        <h1 class="cover-heading">Welcome</h1>
+        <p class="lead">To connect to the registry's blockchain, make sure you are logged into your ethereum account with the use of Metamask or other forms Ethereum wallet.</p>
+        <p class="lead">
+          <a href="#" onClick="App.checkLogin()" class="btn btn-lg btn-secondary " id="btn-connect">Connect to Blockchain</a>
+        </p>
+      </main>
+      <footer class="mastfoot mt-auto">
+        <div class="inner">
+          <p>Copyright 2020</p>
+        </div>
+      </footer>
+    </div>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+
+    <!--<script src="js/assets/jquery.min.js"></script>-->
+    <script src="js/jquery.min.js"></script>
+    <script src="js/assets/popper.min.js"></script>
+    <script src="js/assets/bootstrap.min.js"></script>
+    <script src="js/web3.min.js"></script>
+    <script src="js/truffle-contract.js"></script>
+    <script src="js/app.js"></script>
+    <script>
+
+      console.log(sessionStorage.getItem("account"));
+      if (sessionStorage.getItem("account") == "inspector"){
+        window.location.replace("inspector-home.html");
+      }
+      else if(sessionStorage.getItem("account") == "owner"){
+        window.location.replace("owner-home.html");
+      }
+
+      $('.owner-link').click(function(){
+        $('.inspector-link').removeClass('active');
+        $('this').addClass('active');
+        $('body').css('background-color', '#ff0000');
+      })
+    </script>
+
+    
+  </body>
+</html>

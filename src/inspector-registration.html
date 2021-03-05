@@ -1,0 +1,269 @@
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>PH Land Registry</title>
+    <!-- Bootstrap core CSS -->
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="../css/dashboard.css" rel="stylesheet">
+    <style>
+      .grey{
+        color: #353535;
+        background-color: lightgrey;
+      }
+      .form-style{
+        padding-top: 50px 50px 50px 50px;
+      }
+      #reg-header{
+        font-family: 'Arial Narrow';
+      }
+    </style>
+  </head>
+
+  <body>
+    <nav class="navbar navbar-dark sticky-top bg-primary flex-md-nowrap p-0">
+      <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">PH Land Registry</a>
+      <ul class="navbar-nav px-3">
+        <li class="nav-item text-nowrap">
+          <a class="nav-link logout text-white" href="#">Sign out</a>
+        </li>
+      </ul>
+    </nav>
+
+    <div class="container-fluid">
+      <div class="row">
+        <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+          <div class="sidebar-sticky">
+            <ul class="nav flex-column">
+              <li class="nav-item">
+                <a class="nav-link" href="inspector-home.html">
+                  <span data-feather="home"></span>
+                  Land Records <span class="sr-only"></span>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link active" href="inspector-registration.html?#">
+                  <span data-feather="shopping-cart"></span>
+                  Land Registration
+                </a>
+              </li>
+              
+              <li style="border-bottom: 1px solid #ccc">
+                  <p>&nbsp;</p>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">
+                  <span data-feather="layers"></span>
+                  Settings
+                </a>
+              </li>
+            </ul>
+      </div>
+    </div>
+    <div class="container" >
+
+
+      
+      <div class="col-md-10 offset-2 form-style mt-5 card shadow-sm bg-light ">
+        <div class="card-header">
+          <ul class="nav nav-pills nav-fill">
+            <li class="nav-item">
+              <a class="nav-link active" id="step1" href="#"><b>Step 1: </b>Land Information</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link grey" id="step2" href="#"><b>Step 2: </b>Owner's Information</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link grey" id="step3" href="#"><b>Step 3: </b>Register</a>
+            </li>
+          </ul> 
+         
+        </div>
+      <div class="card-body col-md-8 offset-md-2 pt-5">
+          <center>
+            <h4 class="mb-5" id="reg-header">Register Land Information</h4>
+          </center>
+          <div class="alert alert-danger" id="redundant" role="alert" style="display:none">
+            Property already registered.
+          </div>
+             
+              <div class="alert alert-success" id="reg-success" role="alert" style="display:none">
+                Registration success.
+              </div>
+
+              <form action="#">
+                <div id="land-info-form">
+                  
+                    <div class="form-group">
+                      <label>Survey Number</label>
+                      <input class="form-control"type="text" id="surveyNo" required>
+                    </div>
+                    <div class="form-group">
+                      <label>Area (sqm)</label>
+                      <input class="form-control"type="number" id="area" required>
+                    </div>
+                    <div class="form-group">
+                      <label>Specific lot</label>
+                      <textarea class="form-control" id="completeLoc" required style="resize:none"></textarea>
+                    </div>
+                    <div class="form-group">
+                      <label>Village</label>
+                      <input class="form-control" type="text" id="village" required>
+                    </div>
+                    <div class="form-group">
+                      <label>Barangay</label>
+                      <input class="form-control" type="text" id="brgy" required>
+                    </div>
+                    <div class="form-group">
+                      <label>City/Minucipality</label>
+                      <input class="form-control" type="text" id="cityMun" required>
+                    </div>
+                    <div class="form-group">
+                      <label>Province</label>
+                      <input class="form-control" type="text" id="province" required>
+                    </div>
+                    <a href="#" id="btn-to-owner" class="btn btn-primary">Next</a>
+                </div>
+                <div id="owner-info-form" style="display:none">
+                  <h5 class="mb-3">Owner Information</h5>
+                    <div class="form-group pt-3" >
+                      <label>Owner's Ethereum Address</label>
+                      <input class="form-control" type="text" id="owner" placeholder="Search Ethereum Address" required>
+                      <ul class="list-group" id="result"></ul>
+                    </div>
+                    <div class="form-group" >
+                      <label>Owner's Full Name</label>
+                      <input class="form-control" type="text" id="ownerName" disabled required >
+                    </div>
+                    <div class="form-group">
+                      <label>Date of Registration</label>
+                      <input class="form-control" type="date" id="dateOfReg" required>
+                    </div>
+                    <div class="form-group">
+                      <label>Market Value (ETH)</label>
+                      <input class="form-control" type="number" id="marketVal" required>
+                    </div>
+                    <div class="form-group">
+                      <a href="#" id="back-to-landInfo" class="btn btn-success">Back</a>
+                      <button class="btn btn-primary next">Review</button>
+                    </div>
+                  </div>
+            </form> 
+
+            <ul id="hiddenUL">
+            </ul>
+      
+      </div>
+      </div>
+            
+    
+        
+      <!--review modal-->
+      <div class="modal" id="reviewModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header bg-info text-white">
+              <h5 class="modal-title">You are about to register a land asset.</h5>
+              <button type="button" class="close" onclick="$('.modal').fadeOut(300)" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <p id="date"></p>
+              <p>Survey Number: <span id="displaySurveyNo"></span></p>
+              <p>Area: <span id="displayArea"></span></p>
+              <p>Specific Location: <span id="displayLocation"></span></p>
+              <p>Owner: <span id="displayOwner"></span></p>
+              <p>Market Value: <span id="displayPrice"></span></p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-primary" onclick="App.encryptAndStore()">Register</button>
+              <button type="button" class="btn btn-secondary" onclick="$('.modal').fadeOut(300)">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      </div>
+    </div>
+    </div>
+
+
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="js/xdomain.min.js" slave="http://localhost/dapp/proxy.html"></script>
+    <script src="js/jquery.min.js"></script>
+    <!-- <script src="js/assets/jquery-3.5.1.js"></script> -->
+    <script src="js/assets/popper.min.js"></script>
+    <script src="js/assets/bootstrap.min.js"></script>
+    <script src="js/assets/jquery.dataTables.min.js"></script>
+    <script src="js/assets/dataTables.bootstrap4.min.js"></script>
+    <script src="js/web3.min.js"></script>
+    <script src="js/truffle-contract.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/crypto-js.js"></script>
+    <script src="js/scripts1.js"></script>
+    <script>
+      $(document).ready(function(){
+
+       $.ajaxSetup({ cache: false });
+       $('#owner').keyup(function(){
+        $('#result').html('');
+        $('#state').val('');
+        var searchField = $('#owner').val();
+        var expression = new RegExp(searchField, "i");
+        
+        $.getJSON('people.json', function(data) {
+         $.each(data, function(key, value){
+          if (value.owner.search(expression) != -1 || value.address.search(expression) != -1)
+          {
+           $('#result').append('<li class="list-group-item link-class"><span>'+value.address+'</span> <span style="display:none">|'+value.owner+'|</span></li>');
+           
+          }
+         });   
+        });
+       });
+       
+       $('#result').on('click', 'li', function() {
+        var click_text = $(this).text().split('|');
+        $('#owner').val($.trim(click_text[0]));
+        $('#ownerName').val($.trim(click_text[1]))
+        $("#result").html('');
+      
+        console.log()
+       });
+      });
+
+
+      $("#btn-to-owner").click(function(){
+        $('#reg-header').html("Register Owner's Information")
+        $('#land-info-form').fadeOut(200);
+        $("#owner-info-form").delay(200).fadeIn(500);
+        $('#step1').removeClass("active");
+        $('#step1').addClass("grey");
+        $('#step2').addClass("active");
+      })
+
+      $("#back-to-landInfo").click(function(){
+        $('#owner-info-form').fadeOut(200);
+        $("#land-info-form").delay(200).fadeIn(500);
+        $('#step2').removeClass("active");
+        $('#step2').addClass("grey");
+        $('#step1').addClass("active");
+      })
+
+
+    </script>
+
+
+    
+</body>
+</html>
+
