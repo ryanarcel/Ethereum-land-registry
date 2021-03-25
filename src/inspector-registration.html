@@ -220,7 +220,7 @@
         var searchField = $('#owner').val();
         var expression = new RegExp(searchField, "i");
         
-        $.getJSON('people.json', function(data) {
+        $.getJSON('oper/people.json', function(data) {
          $.each(data, function(key, value){
           if (value.owner.search(expression) != -1 || value.address.search(expression) != -1)
           {

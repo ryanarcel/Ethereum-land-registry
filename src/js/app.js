@@ -89,7 +89,7 @@ App = {
       let hexAccnt = sessionStorage.getItem("account-hex");
       let sessionParsed = parseInt(hexAccnt,16);
 
-      $.getJSON( "people.json", function(data) {
+      $.getJSON( "oper/people.json", function(data) {
         let name;
         for(var i=0; i<data.length; i++){
           address = data[i].address;
@@ -112,7 +112,7 @@ App = {
     },
 
     displayRecordsFromJSON: function(){
-        $.getJSON( "land.json", function(data) {  
+        $.getJSON( "oper/land.json", function(data) {  
           //console.log(data.length);
           for(var i =0; i<data.length; i++){
             let elements = "<tr>"+
@@ -187,7 +187,7 @@ App = {
 
           dateOfReg = App.handleDate(dateOfReg);
 
-          $.getJSON( "land.json", function(data) {
+          $.getJSON( "oper/land.json", function(data) {
             
 
             if(data.length == 0){
@@ -284,7 +284,7 @@ App = {
         cred, 
         {from: account});
 
-        $.getJSON( "land.json", function(data) {  
+        $.getJSON( "oper/land.json", function(data) {  
           let obj = {
               "id" : id,
               "surveyNo": surveyNo,
@@ -310,7 +310,7 @@ App = {
             
         });
         /*
-        $.getJSON( "people.json", function(data) { 
+        $.getJSON( "oper/people.json", function(data) { 
           let obj = {
             "id" : ownerId,
             "owner": ownerName,
@@ -385,7 +385,7 @@ App = {
         let hash2 = encrypted2.toString(CryptoJS.enc.Hex);  
         let ownerId = parseInt(hash2,16)%1000000000000000;
 
-        $.getJSON( "people.json", function(data) { 
+        $.getJSON( "oper/people.json", function(data) { 
           let obj = {
             "id" : ownerId,
             "owner": name,
@@ -506,7 +506,7 @@ App = {
         let LanReg = await App.contracts.LandRegistration.deployed();
         let req = await LanReg.landInfoOwner(id);
 
-        $.getJSON( "people.json", function(data) {
+        $.getJSON( "oper/people.json", function(data) {
           let parsedReq = parseInt(req[4], 16);
           console.log(parsedReq);
           let name;
@@ -568,7 +568,7 @@ App = {
  
     verifyHash: function(_hash, _id){
 
-        $.getJSON( "land.json", function(data) {
+        $.getJSON( "oper/land.json", function(data) {
           for(var i =0; i<data.length; i++){
             if(data[i].id == _id){
               console.log("Found it: "+data[i].surveyNo);
@@ -671,7 +671,7 @@ App = {
         alert("Search box empty.");
       }
       else{
-          $.getJSON( "land.json", function(data) {
+          $.getJSON( "oper/land.json", function(data) {
       
             for(var i =0; i < data.length; i++){
 
@@ -755,7 +755,7 @@ App = {
       let price = await LanReg.getMarketValue(id);
       console.log(res);
 
-      $.getJSON( "land.json", function(data) {
+      $.getJSON( "oper/land.json", function(data) {
         for(let i=0; i<data.length; i++){
           if(data[i].id == id){
             console.log("survey: " +data[i].surveyNo);
@@ -802,7 +802,7 @@ App = {
 
     //  $('.2ndlink').attr("disabled", true);
 
-      $.getJSON( "land.json", function(data) {
+      $.getJSON( "oper/land.json", function(data) {
         for(let i=0; i<data.length; i++){
           let element = "<div class='shadow-lg card mr-3 mt-2 ' id='land"+data[i].id+"' style='width: 18rem;' >"+
           "<h6 class='card-header bg-success text-white'>Land Property "+data[i].id+"</h6>"+

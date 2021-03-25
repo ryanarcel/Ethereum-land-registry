@@ -90,7 +90,7 @@
       console.log(res[1]);
       let landId = res[1];
 
-      $.getJSON( "../../../land.json", function(data) {
+      $.getJSON( "../../../oper/land.json", function(data) {
         for(var i =0; i<data.length; i++){
           if(data[i].id == landId){
             //console.log("Found it: "+data[i].surveyNo);
@@ -109,7 +109,7 @@
 
       console.log("hex-account: "+ accthex ); 
 
-       $.getJSON( "../../../people.json", function(data) {
+       $.getJSON( "../../../oper/people.json", function(data) {
         for(var i =0; i<data.length; i++){
           jsonAddress = parseInt(data[i].address, 16);
           if(jsonAddress == accthex){
